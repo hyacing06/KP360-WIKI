@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)file:///C:/Users/hyaci/Downloads/KP360%20WIKI/KARPARTS360%20WIKI.html# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wiki Center with Rich-Text Notes</title>
+
+  <!-- Quill -->
+  <link href="./Wiki Center with Rich-Text Notes_files/quill.snow.css" rel="stylesheet">
+  <script src="./Wiki Center with Rich-Text Notes_files/quill.min.js.download"></script>
+
+  <!-- Fuse.js for search -->
+  <script src="./Wiki Center with Rich-Text Notes_files/fuse.js@6.6.2"></script>
+  <!-- Mammoth for .docx -->
+  <script src="./Wiki Center with Rich-Text Notes_files/mammoth.browser.min.js.download"></script>
+  <!-- TailwindCSS -->
+  <link href="./Wiki Center with Rich-Text Notes_files/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between bg-gray-700 text-white px-4 py-.15 shadow">
+    <div class="flex items-center space-x-.10">
+      <img src="./Wiki Center with Rich-Text Notes_files/5a52fa72a18384894b907483ffb62e22.w2816.h2344.png" alt="Logo" style="height:70px;width:100px">
+      <h1 class="text-2xl font-Lora">
+        <a href="file:///C:/Users/hyaci/Downloads/KP360%20WIKI/KARPARTS360%20WIKI.html" class="hover:underline">KARPARTS360</a>
+      </h1>
+    </div>
+    <nav class="flex items-center space-x-6 relative">
+           <!-- Dropdown Trigger -->
+      <div class="relative">
+        <button onclick="toggleDropdown()" class="focus:outline-none">
+          Tools ▼
+        </button>
+        <div id="dropdownMenu" class="absolute right-0 mt-2 w-40 bg-white text-black border border-gray-300 rounded shadow-lg hidden z-50">
+          <a href="https://netorgft5128391-my.sharepoint.com/:x:/g/personal/ariane_karparts360_com/EUx919M89c9Kt4k8d7W2hS4B3pqEJvbNr3h4W4dkDtwYQg?e=4OvWYh" class="block px-4 py-2 hover:bg-gray-100">NPM CALC</a>
+          <a href="https://netorgft5128391.sharepoint.com/:x:/r/sites/CSRDaily/_layouts/15/Doc.aspx?sourcedoc=%7B1A2619BD-AD7F-4E31-88C2-344767028B6A%7D&amp;file=All%20Multi%20Shipments%20Tracker1.xlsx&amp;action=default&amp;mobileredirect=true" class="block px-4 py-2 hover:bg-gray-100">MULTISHIPMENTS</a>
+          <a href="https://netorgft5128391.sharepoint.com/:x:/s/Warehouse/EZkFG92vfEJPmK1V2SgSU-gBasSgj1hbb6I7uScp59Qe_w?e=vrCxcB" class="block px-4 py-2 hover:bg-gray-100">ALL SUPPLIERS PO</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+  <!-- Scripts -->
+  <script>
+    function toggleDropdown() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("hidden");
+      document.addEventListener("click", closeDropdownOnClickOutside);
+    }
+
+    function closeDropdownOnClickOutside(e) {
+      const menu = document.getElementById("dropdownMenu");
+      const button = e.target.closest('button[onclick="toggleDropdown()"]');
+      if (!menu.contains(e.target) && !button) {
+        menu.classList.add("hidden");
+        document.removeEventListener("click", closeDropdownOnClickOutside);
+      }
+    }
+
+    // Initialize other scripts (Quill, notes, files, etc.)
+    // ... your existing JS logic here ...
+  </script>
+
+
+  
+
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-gray-300 p-4 flex flex-col">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold">PO Processes</h2>
+          <div class="flex space-x-2">
+            <button title="Create" onclick="openModal()" class="p-1 text-blue-600 hover:bg-blue-100 rounded">+</button>
+            <button title="Upload" onclick="fileInput.click()" class="p-1 text-green-600 hover:bg-green-100 rounded">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 16a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
+                <path d="M7 10V3a1 1 0 112 0v7h2.586a1 1 0 01.707 1.707l-3.293 3.293a1 1 0 01-1.414 0L4.293 11.707A1 1 0 015 10h2z"></path>
+              </svg>
+            </button>
+            <input type="file" id="fileInput" accept=".pdf,.docx" multiple="" style="display:none" onchange="handleFileUpload(event)">
+          </div>
+        </div>
+
+        <input id="searchInput" type="text" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded mb-2" oninput="performSearch()" <="" button="">
+
+        <div id="notesSection" class="mb-6">
+          <h3 class="text-lg font-semibold mb-.20">Notes</h3>
+          <div id="notesList" class="space-y-.20"><p class="text-gray-500">No notes.</p></div>
+        </div>
+
+        <div id="filesSection">
+          <h3 class="text-lg font-semibold mb-2">Uploaded Files</h3>
+          <div id="filesList" class="space-y-2">
+        <div class="border p-2 rounded bg-gray-50 flex justify-between items-center">
+          <span class="truncate max-w-xs cursor-pointer" onclick="displayFile(0)" title="PO ORDER TEMPLATES.docx">PO ORDER TEMPLATES.docx</span>
+          <div class="flex space-x-1">
+            <button onclick="downloadFile(0)" title="Download">⬇️</button>
+            <button onclick="deleteFile(0)" title="Delete">🗑️</button>
+          </div>
+        </div>
+        <div class="border p-2 rounded bg-gray-50 flex justify-between items-center">
+          <span class="truncate max-w-xs cursor-pointer" onclick="displayFile(1)" title="WILLCALL ALL SUPPLIER PO (GUIDE).pdf">WILLCALL ALL SUPPLIER PO (GUIDE).pdf</span>
+          <div class="flex space-x-1">
+            <button onclick="downloadFile(1)" title="Download">⬇️</button>
+            <button onclick="deleteFile(1)" title="Delete">🗑️</button>
+          </div>
+        </div></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="flex-1 p-6 overflow-auto"><section class="bg-white p-6 rounded shadow"><p class="text-gray-500">No matching notes found.</p></section></main>
+  </div>
+
+  <!-- Note Modal -->
+  <div id="noteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h3 class="text-lg font-bold mb-4">New Note</h3>
+      <input id="noteTitle" type="text" placeholder="Title" class="w-full border p-2 mb-2 rounded">
+
+      <!-- Quill Editor Container -->
+      <div class="ql-toolbar ql-snow"><span class="ql-formats"><span class="ql-font ql-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><select class="ql-font" style="display: none;"><option selected="selected"></option><option value="serif"></option><option value="monospace"></option></select><span class="ql-size ql-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item" data-value="small"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="large"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="huge"></span></span></span><select class="ql-size" style="display: none;"><option value="small"></option><option selected="selected"></option><option value="large"></option><option value="huge"></option></select></span><span class="ql-formats"><button type="button" class="ql-bold"><svg viewBox="0 0 18 18"> <path class="ql-stroke" d="M5,4H9.5A2.5,2.5,0,0,1,12,6.5v0A2.5,2.5,0,0,1,9.5,9H5A0,0,0,0,1,5,9V4A0,0,0,0,1,5,4Z"></path> <path class="ql-stroke" d="M5,9h5.5A2.5,2.5,0,0,1,13,11.5v0A2.5,2.5,0,0,1,10.5,14H5a0,0,0,0,1,0,0V9A0,0,0,0,1,5,9Z"></path> </svg></button><button type="button" class="ql-italic"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="7" x2="13" y1="4" y2="4"></line> <line class="ql-stroke" x1="5" x2="11" y1="14" y2="14"></line> <line class="ql-stroke" x1="8" x2="10" y1="14" y2="4"></line> </svg></button><button type="button" class="ql-underline"><svg viewBox="0 0 18 18"> <path class="ql-stroke" d="M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3"></path> <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="12" x="3" y="15"></rect> </svg></button><button type="button" class="ql-strike"><svg viewBox="0 0 18 18"> <line class="ql-stroke ql-thin" x1="15.5" x2="2.5" y1="8.5" y2="9.5"></line> <path class="ql-fill" d="M9.007,8C6.542,7.791,6,7.519,6,6.5,6,5.792,7.283,5,9,5c1.571,0,2.765.679,2.969,1.309a1,1,0,0,0,1.9-.617C13.356,4.106,11.354,3,9,3,6.2,3,4,4.538,4,6.5a3.2,3.2,0,0,0,.5,1.843Z"></path> <path class="ql-fill" d="M8.984,10C11.457,10.208,12,10.479,12,11.5c0,0.708-1.283,1.5-3,1.5-1.571,0-2.765-.679-2.969-1.309a1,1,0,1,0-1.9.617C4.644,13.894,6.646,15,9,15c2.8,0,5-1.538,5-3.5a3.2,3.2,0,0,0-.5-1.843Z"></path> </svg></button></span><span class="ql-formats"><span class="ql-color ql-picker ql-color-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-color-label ql-stroke ql-transparent" x1="3" x2="15" y1="15" y2="15"></line> <polyline class="ql-stroke" points="5.5 11 9 3 12.5 11"></polyline> <line class="ql-stroke" x1="11.63" x2="6.38" y1="9" y2="9"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected ql-primary"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#e60000" style="background-color: rgb(230, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ff9900" style="background-color: rgb(255, 153, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ffff00" style="background-color: rgb(255, 255, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#008a00" style="background-color: rgb(0, 138, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#0066cc" style="background-color: rgb(0, 102, 204);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#9933ff" style="background-color: rgb(153, 51, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffffff" style="background-color: rgb(255, 255, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#facccc" style="background-color: rgb(250, 204, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffebcc" style="background-color: rgb(255, 235, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffffcc" style="background-color: rgb(255, 255, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#cce8cc" style="background-color: rgb(204, 232, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#cce0f5" style="background-color: rgb(204, 224, 245);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ebd6ff" style="background-color: rgb(235, 214, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#bbbbbb" style="background-color: rgb(187, 187, 187);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#f06666" style="background-color: rgb(240, 102, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffc266" style="background-color: rgb(255, 194, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffff66" style="background-color: rgb(255, 255, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#66b966" style="background-color: rgb(102, 185, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#66a3e0" style="background-color: rgb(102, 163, 224);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#c285ff" style="background-color: rgb(194, 133, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#888888" style="background-color: rgb(136, 136, 136);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#a10000" style="background-color: rgb(161, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#b26b00" style="background-color: rgb(178, 107, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#b2b200" style="background-color: rgb(178, 178, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#006100" style="background-color: rgb(0, 97, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#0047b2" style="background-color: rgb(0, 71, 178);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#6b24b2" style="background-color: rgb(107, 36, 178);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#444444" style="background-color: rgb(68, 68, 68);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#5c0000" style="background-color: rgb(92, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#663d00" style="background-color: rgb(102, 61, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#666600" style="background-color: rgb(102, 102, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#003700" style="background-color: rgb(0, 55, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#002966" style="background-color: rgb(0, 41, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#3d1466" style="background-color: rgb(61, 20, 102);"></span></span></span><select class="ql-color" style="display: none;"><option selected="selected"></option><option value="#e60000"></option><option value="#ff9900"></option><option value="#ffff00"></option><option value="#008a00"></option><option value="#0066cc"></option><option value="#9933ff"></option><option value="#ffffff"></option><option value="#facccc"></option><option value="#ffebcc"></option><option value="#ffffcc"></option><option value="#cce8cc"></option><option value="#cce0f5"></option><option value="#ebd6ff"></option><option value="#bbbbbb"></option><option value="#f06666"></option><option value="#ffc266"></option><option value="#ffff66"></option><option value="#66b966"></option><option value="#66a3e0"></option><option value="#c285ff"></option><option value="#888888"></option><option value="#a10000"></option><option value="#b26b00"></option><option value="#b2b200"></option><option value="#006100"></option><option value="#0047b2"></option><option value="#6b24b2"></option><option value="#444444"></option><option value="#5c0000"></option><option value="#663d00"></option><option value="#666600"></option><option value="#003700"></option><option value="#002966"></option><option value="#3d1466"></option></select><span class="ql-background ql-picker ql-color-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <g class="ql-fill ql-color-label"> <polygon points="6 6.868 6 6 5 6 5 7 5.942 7 6 6.868"></polygon> <rect height="1" width="1" x="4" y="4"></rect> <polygon points="6.817 5 6 5 6 6 6.38 6 6.817 5"></polygon> <rect height="1" width="1" x="2" y="6"></rect> <rect height="1" width="1" x="3" y="5"></rect> <rect height="1" width="1" x="4" y="7"></rect> <polygon points="4 11.439 4 11 3 11 3 12 3.755 12 4 11.439"></polygon> <rect height="1" width="1" x="2" y="12"></rect> <rect height="1" width="1" x="2" y="9"></rect> <rect height="1" width="1" x="2" y="15"></rect> <polygon points="4.63 10 4 10 4 11 4.192 11 4.63 10"></polygon> <rect height="1" width="1" x="3" y="8"></rect> <path d="M10.832,4.2L11,4.582V4H10.708A1.948,1.948,0,0,1,10.832,4.2Z"></path> <path d="M7,4.582L7.168,4.2A1.929,1.929,0,0,1,7.292,4H7V4.582Z"></path> <path d="M8,13H7.683l-0.351.8a1.933,1.933,0,0,1-.124.2H8V13Z"></path> <rect height="1" width="1" x="12" y="2"></rect> <rect height="1" width="1" x="11" y="3"></rect> <path d="M9,3H8V3.282A1.985,1.985,0,0,1,9,3Z"></path> <rect height="1" width="1" x="2" y="3"></rect> <rect height="1" width="1" x="6" y="2"></rect> <rect height="1" width="1" x="3" y="2"></rect> <rect height="1" width="1" x="5" y="3"></rect> <rect height="1" width="1" x="9" y="2"></rect> <rect height="1" width="1" x="15" y="14"></rect> <polygon points="13.447 10.174 13.469 10.225 13.472 10.232 13.808 11 14 11 14 10 13.37 10 13.447 10.174"></polygon> <rect height="1" width="1" x="13" y="7"></rect> <rect height="1" width="1" x="15" y="5"></rect> <rect height="1" width="1" x="14" y="6"></rect> <rect height="1" width="1" x="15" y="8"></rect> <rect height="1" width="1" x="14" y="9"></rect> <path d="M3.775,14H3v1H4V14.314A1.97,1.97,0,0,1,3.775,14Z"></path> <rect height="1" width="1" x="14" y="3"></rect> <polygon points="12 6.868 12 6 11.62 6 12 6.868"></polygon> <rect height="1" width="1" x="15" y="2"></rect> <rect height="1" width="1" x="12" y="5"></rect> <rect height="1" width="1" x="13" y="4"></rect> <polygon points="12.933 9 13 9 13 8 12.495 8 12.933 9"></polygon> <rect height="1" width="1" x="9" y="14"></rect> <rect height="1" width="1" x="8" y="15"></rect> <path d="M6,14.926V15H7V14.316A1.993,1.993,0,0,1,6,14.926Z"></path> <rect height="1" width="1" x="5" y="15"></rect> <path d="M10.668,13.8L10.317,13H10v1h0.792A1.947,1.947,0,0,1,10.668,13.8Z"></path> <rect height="1" width="1" x="11" y="15"></rect> <path d="M14.332,12.2a1.99,1.99,0,0,1,.166.8H15V12H14.245Z"></path> <rect height="1" width="1" x="14" y="15"></rect> <rect height="1" width="1" x="15" y="11"></rect> </g> <polyline class="ql-stroke" points="5.5 13 9 5 12.5 13"></polyline> <line class="ql-stroke" x1="11.63" x2="6.38" y1="11" y2="11"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#000000" style="background-color: rgb(0, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#e60000" style="background-color: rgb(230, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ff9900" style="background-color: rgb(255, 153, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#ffff00" style="background-color: rgb(255, 255, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#008a00" style="background-color: rgb(0, 138, 0);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#0066cc" style="background-color: rgb(0, 102, 204);"></span><span tabindex="0" role="button" class="ql-picker-item ql-primary" data-value="#9933ff" style="background-color: rgb(153, 51, 255);"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#facccc" style="background-color: rgb(250, 204, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffebcc" style="background-color: rgb(255, 235, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffffcc" style="background-color: rgb(255, 255, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#cce8cc" style="background-color: rgb(204, 232, 204);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#cce0f5" style="background-color: rgb(204, 224, 245);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ebd6ff" style="background-color: rgb(235, 214, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#bbbbbb" style="background-color: rgb(187, 187, 187);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#f06666" style="background-color: rgb(240, 102, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffc266" style="background-color: rgb(255, 194, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#ffff66" style="background-color: rgb(255, 255, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#66b966" style="background-color: rgb(102, 185, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#66a3e0" style="background-color: rgb(102, 163, 224);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#c285ff" style="background-color: rgb(194, 133, 255);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#888888" style="background-color: rgb(136, 136, 136);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#a10000" style="background-color: rgb(161, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#b26b00" style="background-color: rgb(178, 107, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#b2b200" style="background-color: rgb(178, 178, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#006100" style="background-color: rgb(0, 97, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#0047b2" style="background-color: rgb(0, 71, 178);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#6b24b2" style="background-color: rgb(107, 36, 178);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#444444" style="background-color: rgb(68, 68, 68);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#5c0000" style="background-color: rgb(92, 0, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#663d00" style="background-color: rgb(102, 61, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#666600" style="background-color: rgb(102, 102, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#003700" style="background-color: rgb(0, 55, 0);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#002966" style="background-color: rgb(0, 41, 102);"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="#3d1466" style="background-color: rgb(61, 20, 102);"></span></span></span><select class="ql-background" style="display: none;"><option value="#000000"></option><option value="#e60000"></option><option value="#ff9900"></option><option value="#ffff00"></option><option value="#008a00"></option><option value="#0066cc"></option><option value="#9933ff"></option><option selected="selected"></option><option value="#facccc"></option><option value="#ffebcc"></option><option value="#ffffcc"></option><option value="#cce8cc"></option><option value="#cce0f5"></option><option value="#ebd6ff"></option><option value="#bbbbbb"></option><option value="#f06666"></option><option value="#ffc266"></option><option value="#ffff66"></option><option value="#66b966"></option><option value="#66a3e0"></option><option value="#c285ff"></option><option value="#888888"></option><option value="#a10000"></option><option value="#b26b00"></option><option value="#b2b200"></option><option value="#006100"></option><option value="#0047b2"></option><option value="#6b24b2"></option><option value="#444444"></option><option value="#5c0000"></option><option value="#663d00"></option><option value="#666600"></option><option value="#003700"></option><option value="#002966"></option><option value="#3d1466"></option></select></span><span class="ql-formats"><span class="ql-align ql-picker ql-icon-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><select class="ql-align" style="display: none;"><option selected="selected"></option><option value="center"></option><option value="right"></option><option value="justify"></option></select></span><span class="ql-formats"><button type="button" class="ql-blockquote"><svg viewBox="0 0 18 18"> <rect class="ql-fill ql-stroke" height="3" width="3" x="4" y="5"></rect> <rect class="ql-fill ql-stroke" height="3" width="3" x="11" y="5"></rect> <path class="ql-even ql-fill ql-stroke" d="M7,8c0,4.031-3,5-3,5"></path> <path class="ql-even ql-fill ql-stroke" d="M14,8c0,4.031-3,5-3,5"></path> </svg></button><button type="button" class="ql-code-block"><svg viewBox="0 0 18 18"> <polyline class="ql-even ql-stroke" points="5 7 3 9 5 11"></polyline> <polyline class="ql-even ql-stroke" points="13 7 15 9 13 11"></polyline> <line class="ql-stroke" x1="10" x2="8" y1="5" y2="13"></line> </svg></button></span><span class="ql-formats"><button type="button" class="ql-list" value="ordered"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="7" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="7" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="7" x2="15" y1="14" y2="14"></line> <line class="ql-stroke ql-thin" x1="2.5" x2="4.5" y1="5.5" y2="5.5"></line> <path class="ql-fill" d="M3.5,6A0.5,0.5,0,0,1,3,5.5V3.085l-0.276.138A0.5,0.5,0,0,1,2.053,3c-0.124-.247-0.023-0.324.224-0.447l1-.5A0.5,0.5,0,0,1,4,2.5v3A0.5,0.5,0,0,1,3.5,6Z"></path> <path class="ql-stroke ql-thin" d="M4.5,10.5h-2c0-.234,1.85-1.076,1.85-2.234A0.959,0.959,0,0,0,2.5,8.156"></path> <path class="ql-stroke ql-thin" d="M2.5,14.846a0.959,0.959,0,0,0,1.85-.109A0.7,0.7,0,0,0,3.75,14a0.688,0.688,0,0,0,.6-0.736,0.959,0.959,0,0,0-1.85-.109"></path> </svg></button><button type="button" class="ql-list" value="bullet"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="6" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="6" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="6" x2="15" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="3" y1="4" y2="4"></line> <line class="ql-stroke" x1="3" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="3" y1="14" y2="14"></line> </svg></button></span><span class="ql-formats"><button type="button" class="ql-indent" value="-1"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line> <polyline class="ql-stroke" points="5 7 5 11 3 9 5 7"></polyline> </svg></button><button type="button" class="ql-indent" value="+1"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="9" x2="15" y1="9" y2="9"></line> <polyline class="ql-fill ql-stroke" points="3 7 3 11 5 9 3 7"></polyline> </svg></button></span><span class="ql-formats"><button type="button" class="ql-clean"><svg class="" viewBox="0 0 18 18"> <line class="ql-stroke" x1="5" x2="13" y1="3" y2="3"></line> <line class="ql-stroke" x1="6" x2="9.35" y1="12" y2="3"></line> <line class="ql-stroke" x1="11" x2="15" y1="11" y2="15"></line> <line class="ql-stroke" x1="15" x2="11" y1="11" y2="15"></line> <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="7" x="2" y="14"></rect> </svg></button></span></div><div id="noteEditor" class="h-40 mb-2 ql-container ql-snow"><div class="ql-editor ql-blank" data-gramm="false" contenteditable="true"><p><br></p></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div></div>
+
+      <div class="flex justify-end space-x-2">
+        <button onclick="saveNote()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+        <button onclick="closeModal()" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-0 text-black text-center p-.20 mt-4">
+    <p>© By: Hyacinth and Jovilyn.</p>
+  </footer>
+
+  <script>
+    // --- Quill Setup ---
+    const quill = new Quill('#noteEditor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ font: [] }, { size: ['small', false, 'large', 'huge'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          ['blockquote', 'code-block'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          ['clean']
+        ]
+      }
+    });
+
+    // --- Notes Logic ---
+    let notes = JSON.parse(localStorage.getItem("notes")) || [];
+    let editIndex = null;
+    const noteFuse = new Fuse(notes, { keys: ["title","content"], includeScore:true, threshold:0.3 });
+
+    function renderNotes(filtered = null) {
+      const list = document.getElementById("notesList");
+      const arr = filtered || notes;
+      if (!arr.length) return list.innerHTML = "<p class='text-gray-500'>No notes.</p>";
+      list.innerHTML = arr.map(n => {
+        const i = notes.findIndex(x => x === n);
+        return `
+          <div class="border p-2 rounded bg-gray-50 cursor-pointer hover:bg-gray-100" onclick="displayNote(${i})">
+            <div class="flex justify-between items-center">
+              <span class="font-medium">${n.title}</span>
+              <span class="text-xs text-gray-400">${new Date(n.timestamp).toLocaleString()}</span>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function displayNote(i) {
+      const n = notes[i];
+      document.getElementById("mainContent").innerHTML = `
+        <section class="bg-white p-6 rounded shadow">
+          <div class="flex justify-between items-center mb-2">
+            <h2 class="text-xl font-bold">${n.title}</h2>
+            <div class="flex space-x-2">
+              <button onclick="editNote(${i})" class="text-blue-500 hover:text-blue-700">Edit</button>
+              <button onclick="deleteNote(${i})" class="text-red-500 hover:text-red-700">Delete</button>
+            </div>
+          </div>
+          <div class="prose mb-2">${n.content}</div>
+          <p class="text-sm text-gray-400">Created: ${new Date(n.timestamp).toLocaleString()}</p>
+        </section>`;
+    }
+
+    function openModal() {
+      document.getElementById("noteModal").classList.remove("hidden");
+      noteTitle.value = "";
+      quill.setContents([]);
+    }
+
+    function closeModal() {
+      document.getElementById("noteModal").classList.add("hidden");
+      editIndex = null;
+      quill.setContents([]);
+    }
+
+    function saveNote() {
+      const title = noteTitle.value.trim();
+      const content = quill.root.innerHTML.trim();
+      if (!title || content === '<p><br></p>') return;
+
+      if (editIndex !== null) {
+        notes[editIndex] = { ...notes[editIndex], title, content };
+      } else {
+        notes.push({ title, content, timestamp: new Date().toISOString() });
+      }
+      localStorage.setItem("notes", JSON.stringify(notes));
+      noteFuse.setCollection(notes);
+      renderNotes();
+      if (editIndex !== null) displayNote(editIndex);
+      closeModal();
+    }
+
+    function editNote(i) {
+      editIndex = i;
+      noteTitle.value = notes[i].title;
+      quill.root.innerHTML = notes[i].content;
+      document.getElementById("noteModal").classList.remove("hidden");
+    }
+
+    function deleteNote(i) {
+      if (!confirm("Delete this note?")) return;
+      notes.splice(i, 1);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      renderNotes();
+      mainContent.innerHTML = `<section class="bg-white p-6 rounded shadow"><p class="text-gray-500">Note deleted.</p></section>`;
+    }
+
+    function performSearch() {
+  const q = searchInput.value.trim();
+  if (!q) {
+    renderNotes();
+    restoreDefaultMainContent();
+    return;
+  }
+  const results = noteFuse.search(q).map(r => r.item);
+  renderNotes(results);
+  renderNotesInMain(results);
+}
+
+// Helper: render full matched notes in main content area
+function renderNotesInMain(notesArr) {
+  if (!notesArr.length) {
+    mainContent.innerHTML = `<section class="bg-white p-6 rounded shadow"><p class="text-gray-500">No matching notes found.</p></section>`;
+    return;
+  }
+  mainContent.innerHTML = notesArr.map(n => `
+    <section class="bg-white p-6 mb-4 rounded shadow">
+      <h2 class="text-xl font-bold mb-2">${n.title}</h2>
+      <div class="prose mb-2">${n.content}</div>
+      <p class="text-sm text-gray-400">Created: ${new Date(n.timestamp).toLocaleString()}</p>
+    </section>
+  `).join('');
+}
+
+function restoreDefaultMainContent() {
+  mainContent.innerHTML = `
+    <div class="section mb-6 bg-white p-6 rounded-lg border border-gray-300 shadow-sm">
+      <h2 class="text-2xl font-bold mb-3">Welcome to the Wiki360</h2>
+      <p>This is our Purchase Order central hub for all documentation, guides, and resources for our team.</p>
+    </div>
+
+    <div class="section mb-6 bg-white p-6 rounded-lg border border-gray-300 shadow-sm">
+      <h2 class="text-2xl font-bold mb-3">Updates</h2>
+      <p>Here you'll find setup instructions, installation guides, and quick start examples.</p>
+      <ul class="list-disc list-inside mt-2 space-y-1">
+        <li>Install the software</li>
+        <li>Configure your environment</li>
+        <li>Write your first page</li>
+      </ul>
+    </div>
+
+    <div class="section mb-6 bg-white p-6 rounded-lg border border-gray-300 shadow-sm">
+      <h2 class="text-2xl font-bold mb-3">Documentation</h2>
+      <p>Deep technical details, code snippets, architecture diagrams, and more.</p>
+    </div>
+
+    <div class="section bg-white p-6 rounded-lg border border-gray-300 shadow-sm">
+      <h2 class="text-2xl font-bold mb-3">API Reference</h2>
+      <p>Full details on endpoints, authentication, rate limits, and request/response formats.</p>
+    </div>
+  `;
+}
+
+    // --- File Logic (PDF & DOCX) ---
+    let files = JSON.parse(localStorage.getItem("files")) || [];
+
+    function renderFiles() {
+      const list = document.getElementById("filesList");
+      if (!files.length) return list.innerHTML = "<p class='text-gray-500'>No files.</p>";
+      list.innerHTML = files.map((f,i) => `
+        <div class="border p-2 rounded bg-gray-50 flex justify-between items-center">
+          <span class="truncate max-w-xs cursor-pointer" onclick="displayFile(${i})" title="${f.name}">${f.name}</span>
+          <div class="flex space-x-1">
+            <button onclick="downloadFile(${i})" title="Download">⬇️</button>
+            <button onclick="deleteFile(${i})" title="Delete">🗑️</button>
+          </div>
+        </div>`).join('');
+    }
+
+    function handleFileUpload(e) {
+      Array.from(e.target.files).forEach(file => {
+        const ok = ["application/pdf","application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+        if (!ok.includes(file.type)) return alert("Only PDF/DOCX allowed");
+        const r = new FileReader();
+        r.onload = () => {
+          files.push({ name:file.name, type:file.type, data:r.result, timestamp:new Date().toISOString() });
+          localStorage.setItem("files", JSON.stringify(files));
+          renderFiles();
+        };
+        r.readAsDataURL(file);
+      });
+      e.target.value = "";
+    }
+
+    function displayFile(i) {
+  const f = files[i];
+
+  if (f.type === "application/pdf") {
+    // Convert base64 to Blob
+    const byteCharacters = atob(f.data.split(',')[1]);
+    const byteNumbers = Array.from(byteCharacters).map(char => char.charCodeAt(0));
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Display with zoom and fullscreen
+    mainContent.innerHTML = `
+      <section class="bg-white rounded shadow w-full h-full flex flex-col">
+        <div class="flex justify-between items-center px-4 py-2 border-b">
+          <h2 class="text-xl font-bold truncate">${f.name}</h2>
+          <div class="space-x-2">
+            <button onclick="zoomPDF(1.25)" class="bg-blue-100 px-2 py-1 rounded hover:bg-blue-200">Zoom In</button>
+            <button onclick="zoomPDF(0.8)" class="bg-blue-100 px-2 py-1 rounded hover:bg-blue-200">Zoom Out</button>
+            <button onclick="toggleFullscreen()" class="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">Fullscreen</button>
+          </div>
+        </div>
+        <div id="pdfViewerContainer" class="flex-1 overflow-hidden">
+          <embed id="pdfViewer" src="${blobUrl}" type="application/pdf" class="w-full h-full"/>
+        </div>
+      </section>
+    `;
+
+    // Revoke previous object URLs if needed (optional cleanup)
+    if (window.currentPDFBlobUrl) URL.revokeObjectURL(window.currentPDFBlobUrl);
+    window.currentPDFBlobUrl = blobUrl;
+    window.currentPDFZoom = 1;
+  } else {
+    // DOCX handling
+    mainContent.innerHTML = `
+      <section class="bg-white p-4 rounded shadow overflow-auto">
+        <h2 class="text-xl font-bold mb-2">${f.name}</h2>
+        <div id="docxContent" class="prose max-w-none"></div>
+      </section>`;
+    const ab = (() => {
+      const b = atob(f.data.split(",")[1]), u = new Uint8Array(b.length);
+      for (let j = 0; j < b.length; j++) u[j] = b.charCodeAt(j);
+      return u.buffer;
+    })();
+    mammoth.convertToHtml({ arrayBuffer: ab })
+      .then(r => docxContent.innerHTML = r.value)
+      .catch(() => docxContent.innerHTML = "<p class='text-red-500'>Failed to load.</p>");
+  }
+}
+
+function zoomPDF(factor) {
+  const viewer = document.getElementById("pdfViewer");
+  if (!viewer) return;
+  window.currentPDFZoom = Math.max(0.5, Math.min(window.currentPDFZoom * factor, 3)); // Clamp zoom
+  viewer.style.transform = `scale(${window.currentPDFZoom})`;
+  viewer.style.transformOrigin = "top left";
+  viewer.style.width = `${window.currentPDFZoom * 100}%`;
+  viewer.style.height = `${window.currentPDFZoom * 100}%`;
+}
+
+function toggleFullscreen() {
+  const container = document.getElementById("pdfViewerContainer");
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else if (container.requestFullscreen) {
+    container.requestFullscreen();
+  }
+}
+
+
+    function downloadFile(i) {
+  const f = files[i];
+  const a = document.createElement("a");
+  a.href = f.data;
+  a.download = f.name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+    function deleteFile(i) {
+      if (!confirm("Delete this file?")) return;
+      files.splice(i,1);
+      localStorage.setItem("files", JSON.stringify(files));
+      renderFiles();
+      mainContent.innerHTML = `<section class="bg-white p-6 rounded shadow"><p class="text-gray-500">File deleted.</p></section>`;
+    }
+
+    // --- Initialize ---
+    renderNotes();
+    renderFiles();
+  </script>
+
+
+</body></html>
